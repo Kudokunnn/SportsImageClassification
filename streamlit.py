@@ -5,6 +5,11 @@ from keras.models import load_model
 from utils import predict_label
 from PIL import Image
 import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
+import warnings
+warnings.filterwarnings('ignore', category=DeprecationWarning)
+os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
+
 
 # Page configuration 
 st.set_page_config(page_title="Sports Image Classification", layout="centered", page_icon="🏀")
