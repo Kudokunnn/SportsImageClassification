@@ -19,15 +19,8 @@ st.markdown("""
     </div>
     """, unsafe_allow_html=True)
 
-
-# Load the model with cache
-@st.cache_resource
-def load_ai_model():
-    model_path = r"C:\Users\Admin\NguyenVietAnh_ITDSIU18027_thesis\data_thesis\EfficientNetB0.h5"
-    return keras.models.load_model(model_path, custom_objects={'F1_score': 'F1_score'})
-
-
-model = load_ai_model()
+# Load model
+model= keras.models.load_model("data_thesis/EfficientNetB0.h5")
 
 # Upload Image Section
 st.header("📥 Upload an Image")
