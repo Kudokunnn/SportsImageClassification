@@ -2,7 +2,7 @@ import os
 import tensorflow as tf
 from tensorflow import keras
 from PIL import Image
-import web as st
+import streamlit as st
 from utils import predict_label
 
 # TensorFlow configuration and warning suppression
