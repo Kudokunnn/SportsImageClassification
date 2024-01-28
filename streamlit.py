@@ -10,7 +10,7 @@ os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
 
 # Page configuration
-st.set_page_config(page_title="Sports Image Classifiers", layout="centered", page_icon="🏀")
+st.set_page_config(page_title="Sports Image Classifier", layout="centered", page_icon="🏀")
 
 # Title and Introduction
 st.markdown("<h1 style='text-align: center; color: blue;'>🏀 Sports Image Classifier</h1>", unsafe_allow_html=True)
