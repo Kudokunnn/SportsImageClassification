@@ -10,10 +10,10 @@ os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
 
 # Page configuration
-st.set_page_config(page_title="Sports Image Classification", layout="centered", page_icon="🏀")
+st.set_page_config(page_title="Sports Image Classifier", layout="centered", page_icon="🏀")
 
 # Title and Introduction
-st.markdown("<h1 style='text-align: center; color: blue;'>🏀 Sports Image Classification</h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='text-align: center; color: blue;'>🏀 Sports Image Classifier</h1>", unsafe_allow_html=True)
 st.markdown("""
     <div style='text-align: center;'> 
         Welcome to the Sports Image Classifier! Upload an image, and the AI will predict the sport.
