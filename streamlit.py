@@ -1,4 +1,5 @@
 import os
+import numpy as np
 import tensorflow as tf
 from tensorflow import keras
 from PIL import Image
@@ -44,33 +45,39 @@ if uploaded_file is not None:
     except Exception as e:
         st.error(f"An error occurred: {e}")
 
-# Sample Image Option with multiple choices
+# Display options for sample images
 st.write("Or try with sample images:")
 sample_images_dir = "data_thesis/sample images"
-try:
-    sample_images = os.listdir(sample_images_dir)
-except FileNotFoundError:
+
+# Check if the directory exists and get list of image paths
+if not os.path.isdir(sample_images_dir):
     st.error(f"Sample images directory not found at {sample_images_dir}")
-    st.stop()
+else:
+    sample_images = os.listdir(sample_images_dir)
+    sample_images_paths = [os.path.join(sample_images_dir, img) for img in sample_images]
 
-selected_sample = st.selectbox("Choose a sample image below", sample_images)
+    # Display images with radio buttons for selection
+    selected_image_index = st.radio("Select an image:", range(len(sample_images_paths)),
+                                    format_func=lambda x: sample_images[x])
 
-if selected_sample:
-    try:
-        sample_image_path = os.path.join(sample_images_dir, selected_sample)
-        sample_image = Image.open(sample_image_path)
-        st.image(sample_image, caption=f"Sample Image: {selected_sample}", use_column_width=True)
-        with st.spinner('🔄 Analyzing...'):
-            label = predict_label(sample_image, model)
-        st.markdown(f"""
-        <h2 style='text-align: center; 
-                color: lightblue;
-                text-shadow: 2px 2px 4px #000000;'>
-            {label}
-        </h2>
-        """, unsafe_allow_html=True)
-    except Exception as e:
-        st.error(f"An error occurred while processing the sample image: {e}")
+    if st.button('Confirm Selection'):
+        selected_sample_path = sample_images_paths[selected_image_index]
+        try:
+            sample_image = Image.open(selected_sample_path)
+            st.image(sample_image, caption=f"Sample Image: {os.path.basename(selected_sample_path)}", use_column_width=True)
+            with st.spinner('🔄 Analyzing...'):
+                # Convert PIL image to RGB and then to a tensor
+                sample_image_tensor = tf.convert_to_tensor(np.array(sample_image.convert('RGB')), dtype=tf.float32)
+                label = predict_label(sample_image_tensor, model)
+            st.markdown(f"""
+            <h2 style='text-align: center; 
+                    color: lightblue;
+                    text-shadow: 2px 2px 4px #000000;'>
+                {label}
+            </h2>
+            """, unsafe_allow_html=True)
+        except Exception as e:
+            st.error(f"An error occurred while processing the sample image: {e}")
 
 # Footer
 st.markdown("---")
