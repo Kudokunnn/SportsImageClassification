@@ -31,12 +31,13 @@ else:
 
 # Upload Image Section
 st.header("📥 Upload an Image")
-uploaded_file = st.file_uploader("Choose a JPG or JPEG image of a sport", type=["jpg"])
+# Now accepting JPG, JPEG, and PNG images
+uploaded_file = st.file_uploader("Choose an image of a sport (JPG, JPEG, or PNG)", type=["jpg", "jpeg", "png"])
 
 # Processing Uploaded Image
 if uploaded_file is not None:
     try:
-        image = Image.open(uploaded_file).convert('RGB')
+        image = Image.open(uploaded_file).convert('RGB')  # This line ensures compatibility with PNG images
         st.image(image, caption="Uploaded Image", use_column_width=True)
         with st.spinner('🔄 Analyzing...'):
             label = predict_label(image, model)
@@ -44,6 +45,7 @@ if uploaded_file is not None:
                         unsafe_allow_html=True)
     except Exception as e:
         st.error(f"An error occurred: {e}")
+
 
 # Display options for sample images
 st.write("Or try with sample images:")
