@@ -22,7 +22,7 @@ st.markdown("""
     """, unsafe_allow_html=True)
 
 # Load model
-model_path = "EfficientNetB0.h5"
+model_path = "dataset_new/EfficientNetB0.h5"
 if os.path.exists(model_path):
     model = keras.models.load_model(model_path)
 else:
@@ -49,7 +49,7 @@ if uploaded_file is not None:
 
 # Display options for sample images
 st.write("Or try with sample images:")
-sample_images_dir = "dataset_new/sample images  "
+sample_images_dir = "dataset_new/sample images"
 
 # Check if the directory exists and get list of image paths
 if not os.path.isdir(sample_images_dir):
