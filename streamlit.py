@@ -21,23 +21,34 @@ st.markdown("""
     </div>
     """, unsafe_allow_html=True)
 
+# Sidebar for model selection
+st.sidebar.header("Model Selection")
+# Update this list with your actual model file names (without the .h5 extension)
+model_architectures = {
+    "EfficientNetB0": "EfficientNetB0.h5",
+    "VGG16": "VGG16.h5",
+    "ResNet50": "ResNet50.h5",
+    "MobileNetV3 Large": "MobileNetV3Large.h5",
+    "InceptionV3": "InceptionV3.h5"
+}
+selected_architecture_name = st.sidebar.selectbox("Choose the model architecture:", list(model_architectures.keys()))
+model_path = model_architectures[selected_architecture_name]
+
 # Load model
-model_path = "dataset_new/EfficientNetB0.h5"
 if os.path.exists(model_path):
     model = keras.models.load_model(model_path)
 else:
-    st.error(f"Model file not found at {model_path}")
+    st.error(f"Model file not found for {selected_architecture_name} at {model_path}")
     st.stop()
 
 # Upload Image Section
 st.header("📥 Upload an Image")
-# Now accepting JPG, JPEG, and PNG images
 uploaded_file = st.file_uploader("Choose an image of a sport (JPG, JPEG, or PNG)", type=["jpg", "jpeg", "png"])
 
 # Processing Uploaded Image
 if uploaded_file is not None:
     try:
-        image = Image.open(uploaded_file).convert('RGB')  # This line ensures compatibility with PNG images
+        image = Image.open(uploaded_file).convert('RGB')
         st.image(image, caption="Uploaded Image", use_column_width=True)
         with st.spinner('🔄 Analyzing...'):
             label = predict_label(image, model)
