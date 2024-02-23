@@ -52,14 +52,14 @@ if uploaded_file is not None:
         image = Image.open(uploaded_file).convert('RGB')
         st.image(image, caption="Uploaded Image", use_column_width=True)
         with st.spinner('🔄 Analyzing...'):
-            start_time = time.time()  # Capture the start time
+            start_time = time.time()
             label = predict_label(image, model)
-            end_time = time.time()  # Capture the end time
-            processing_time = end_time - start_time  # Calculate the processing time
-            st.markdown(f"<h2 style='text-align: center; color: lightblue; text-shadow: 2px 2px 4px #000000;'>{label}</h2>",
-                        unsafe_allow_html=True)
-            st.markdown(f"<h4 style='text-align: center;'>Processing Time: {processing_time:.2f} seconds</h4>",
-                        unsafe_allow_html=True)  # Display the processing time
+            end_time = time.time()
+            processing_time = end_time - start_time
+            print("Start Time:", start_time)
+            print("End Time:", end_time)
+            print("Processing Time:", processing_time)
+            st.markdown(f"Processing Time: {processing_time:.2f} seconds")
     except Exception as e:
         st.error(f"An error occurred: {e}")
 
