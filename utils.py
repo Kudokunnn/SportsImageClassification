@@ -115,15 +115,26 @@ classes = [
 ]
 
 
-def predict_label(img, model):
-    resized_img = tf.image.resize(img, (224, 224)).numpy().astype(int)
-    exp_img = np.expand_dims(resized_img, 0)
-    y_prob = model.predict(exp_img)
-    if y_prob.max(axis=-1) < 0.5:
-        return "Cannot predict. Please input appropriate image."
-    else:
-        y_classes = y_prob.argmax(axis=-1)
-        label = classes[y_classes[0]]
-        return "Predicted Sport: " + label.capitalize()
-    
+def predict_label(img, model, classes):
+    try:
+        # Resize the image to (224, 224)
+        resized_img = tf.image.resize(img, (224, 224)).numpy().astype(int)
+        exp_img = np.expand_dims(resized_img, 0)
+
+        # Predict with the model
+        y_prob = model.predict(exp_img)
+
+        if y_prob.max(axis=-1) < 0.5:
+            return "Cannot predict. Please input an appropriate image."  # No label, just a message
+        else:
+            y_classes = y_prob.argmax(axis=-1)
+            label = classes[y_classes[0]]
+            return label.capitalize()  # Only the label
+    except Exception as e:
+        return f"An error occurred: {e}"
+
+
+
+
+
 

@@ -1,11 +1,12 @@
 import os
-import numpy as np
-import tensorflow as tf
 import time
-from tensorflow import keras
+
+import tensorflow as tf
 from PIL import Image
+from tensorflow import keras
+
 import streamlit as st
-from utils import predict_label
+from utils import predict_label, classes
 
 # TensorFlow configuration and warning suppression
 os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
@@ -24,14 +25,16 @@ st.markdown("""
 
 # Sidebar for model selection
 st.sidebar.header("Model Selection")
-# Update this list with your actual model file names (without the .h5 extension)
+
+# Update this list model file names
 model_architectures = {
     "EfficientNetB0": "EfficientNetB0.h5",
-    "VGG16": "VGG16.h5",
-    "ResNet50": "ResNet50.h5",
     "MobileNetV3 Large": "MobileNetV3Large.h5",
+    "ResNet50": "ResNet50.h5",
+    "VGG19": "VGG19.h5",
     "InceptionV3": "InceptionV3.h5"
 }
+
 selected_architecture_name = st.sidebar.selectbox("Choose the model architecture:", list(model_architectures.keys()))
 model_path = model_architectures[selected_architecture_name]
 
@@ -53,15 +56,18 @@ if uploaded_file is not None:
         st.image(image, caption="Uploaded Image", use_column_width=True)
         with st.spinner('🔄 Analyzing...'):
             start_time = time.time()
-            label = predict_label(image, model)
+            # Call predict_label with the appropriate arguments
+            prediction = predict_label(image, model, classes)
             end_time = time.time()
-            processing_time = end_time - start_time
-            print("Start Time:", start_time)
-            print("End Time:", end_time)
-            print("Processing Time:", processing_time)
-            st.markdown(f"Processing Time: {processing_time:.2f} seconds")
+        processing_time = end_time - start_time
+        # Check if a confident prediction was made before prepending "Predicted Sport:"
+        if "Cannot predict" not in prediction:
+            prediction = f"Predicted Sport: {prediction}"
+        st.markdown(f"<h2 style='text-align: center; color: lightblue;'>{prediction}</h2>", unsafe_allow_html=True)
+        st.markdown(f"<h4 style='text-align: center;'>Processing Time: {processing_time:.2f} seconds</h4>", unsafe_allow_html=True)
     except Exception as e:
         st.error(f"An error occurred: {e}")
+
 
 
 # Display options for sample images
@@ -82,22 +88,26 @@ else:
     if st.button('Confirm Selection'):
         selected_sample_path = sample_images_paths[selected_image_index]
         try:
-            sample_image = Image.open(selected_sample_path)
-            st.image(sample_image, caption=f"Sample Image: {os.path.basename(selected_sample_path)}", use_column_width=True)
+            # Open the image using PIL and convert it to 'RGB'
+            sample_image = Image.open(selected_sample_path).convert('RGB')
+            # Display the image using Streamlit
+            st.image(sample_image, caption=f"Sample Image: {os.path.basename(selected_sample_path)}",
+                     use_column_width=True)
             with st.spinner('🔄 Analyzing...'):
-                # Convert PIL image to RGB and then to a tensor
-                sample_image_tensor = tf.convert_to_tensor(np.array(sample_image.convert('RGB')), dtype=tf.float32)
-                label = predict_label(sample_image_tensor, model)
-            st.markdown(f"""
-            <h2 style='text-align: center; 
-                    color: lightblue;
-                    text-shadow: 2px 2px 4px #000000;'>
-                {label}
-            </h2>
-            """, unsafe_allow_html=True)
+                start_time = time.time()
+                # Predict the label for the sample image
+                prediction = predict_label(sample_image, model, classes)  # Pass 'classes' argument
+                end_time = time.time()
+            processing_time = end_time - start_time
+            # Check if a confident prediction was made before prepending "Predicted Sport:"
+            if "Cannot predict" not in prediction:
+                prediction = f"Predicted Sport: {prediction}"
+            st.markdown(f"<h2 style='text-align: center; color: lightblue;'>{prediction}</h2>", unsafe_allow_html=True)
+            st.markdown(f"<h4 style='text-align: center;'>Processing Time: {processing_time:.2f} seconds</h4>",
+                        unsafe_allow_html=True)
         except Exception as e:
             st.error(f"An error occurred while processing the sample image: {e}")
-
+            
 # Footer
 st.markdown("---")
 st.markdown("""
