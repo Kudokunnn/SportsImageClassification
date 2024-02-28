@@ -29,10 +29,7 @@ st.sidebar.header("Model Selection")
 # Update this list model file names
 model_architectures = {
     "EfficientNetB0": "EfficientNetB0.h5",
-    "MobileNetV3 Large": "MobileNetV3Large.h5",
-    "ResNet50": "ResNet50.h5",
-    "VGG19": "VGG19.h5",
-    "InceptionV3": "InceptionV3.h5"
+    "MobileNetV3 Large": "MobileNetV3Large.h5"
 }
 
 selected_architecture_name = st.sidebar.selectbox("Choose the model architecture:", list(model_architectures.keys()))
