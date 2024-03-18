@@ -1,16 +1,9 @@
 import os
 import time
-
-import tensorflow as tf
 from PIL import Image
 from tensorflow import keras
-
 import streamlit as st
-from utils import predict_label, classes
-
-# TensorFlow configuration and warning suppression
-os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
-tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
+from utils import predict_label, classes  # Ensure that utils.py is properly defined with predict_label and classes.
 
 # Page configuration
 st.set_page_config(page_title="Sports Image Classifier", layout="centered", page_icon="🏀")
@@ -28,8 +21,8 @@ st.sidebar.header("Model Selection")
 
 # Update this list model file names
 model_architectures = {
-    "EfficientNetB0": "EfficientNetB0.h5",
-    "MobileNetV3 Large": "MobileNetV3Large.h5"
+    "EfficientNetB0": "newdataset_(80%training)/newdataset_(80_training)/EfficientNetB0_80_.h5",
+    "MobileNetV3 Large": "newdataset_(80%training)/newdataset_(80_training)/MobileNetV3Large_80_.h5",
 }
 
 selected_architecture_name = st.sidebar.selectbox("Choose the model architecture:", list(model_architectures.keys()))
@@ -54,22 +47,30 @@ if uploaded_file is not None:
         with st.spinner('🔄 Analyzing...'):
             start_time = time.time()
             # Call predict_label with the appropriate arguments
-            prediction = predict_label(image, model, classes)
+            prediction, accuracy = predict_label(image, model, classes)
             end_time = time.time()
         processing_time = end_time - start_time
-        # Check if a confident prediction was made before prepending "Predicted Sport:"
-        if "Cannot predict" not in prediction:
-            prediction = f"Predicted Sport: {prediction}"
-        st.markdown(f"<h2 style='text-align: center; color: lightblue;'>{prediction}</h2>", unsafe_allow_html=True)
-        st.markdown(f"<h4 style='text-align: center;'>Processing Time: {processing_time:.2f} seconds</h4>", unsafe_allow_html=True)
+
+        # Display results
+        if accuracy:
+            st.markdown(
+                f"<h2 style='text-align: center; color: lightblue;'>Predicted Sport: {prediction}</h2>",
+                unsafe_allow_html=True)
+            st.markdown(
+                f"<h3 style='text-align: center; color: lightblue;'>Accuracy: {accuracy}</h3>",
+                unsafe_allow_html=True)
+        else:
+            st.markdown(f"<h2 style='text-align: center; color: lightblue;'>{prediction}</h2>",
+                        unsafe_allow_html=True)
+
+        st.markdown(f"<h4 style='text-align: center;'>Processing Time: {processing_time:.2f} seconds</h4>",
+                    unsafe_allow_html=True)
     except Exception as e:
         st.error(f"An error occurred: {e}")
 
-
-
 # Display options for sample images
 st.write("Or try with sample images:")
-sample_images_dir = "dataset_new/sample images"
+sample_images_dir = "newdataset_(80%training)/newdataset_(80_training)/sample images"
 
 # Check if the directory exists and get list of image paths
 if not os.path.isdir(sample_images_dir):
@@ -93,18 +94,24 @@ else:
             with st.spinner('🔄 Analyzing...'):
                 start_time = time.time()
                 # Predict the label for the sample image
-                prediction = predict_label(sample_image, model, classes)  # Pass 'classes' argument
+                prediction, accuracy = predict_label(sample_image, model, classes)
                 end_time = time.time()
             processing_time = end_time - start_time
-            # Check if a confident prediction was made before prepending "Predicted Sport:"
-            if "Cannot predict" not in prediction:
-                prediction = f"Predicted Sport: {prediction}"
-            st.markdown(f"<h2 style='text-align: center; color: lightblue;'>{prediction}</h2>", unsafe_allow_html=True)
+            # Display results
+            if accuracy:
+                st.markdown(f"<h2 style='text-align: center; color: lightblue;'>Predicted Sport: {prediction}</h2>",
+                            unsafe_allow_html=True)
+                st.markdown(f"<h3 style='text-align: center; color: lightblue;'>Accuracy: {accuracy}</h3>",
+                            unsafe_allow_html=True)
+            else:
+                st.markdown(f"<h2 style='text-align: center; color: lightblue;'>{prediction}</h2>",
+                            unsafe_allow_html=True)
             st.markdown(f"<h4 style='text-align: center;'>Processing Time: {processing_time:.2f} seconds</h4>",
                         unsafe_allow_html=True)
         except Exception as e:
             st.error(f"An error occurred while processing the sample image: {e}")
-            
+
+
 # Footer
 st.markdown("---")
 st.markdown("""
