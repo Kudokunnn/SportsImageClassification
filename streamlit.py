@@ -21,8 +21,8 @@ st.sidebar.header("Model Selection")
 
 # Update this list model file names
 model_architectures = {
-    "EfficientNetB0": "newdataset_(80%training)/newdataset_(80_training)/EfficientNetB0_80_.h5",
-    "MobileNetV3 Large": "newdataset_(80%training)/newdataset_(80_training)/MobileNetV3Large_80_.h5",
+    "EfficientNetB0": "EfficientNetB0_80_.h5",
+    "MobileNetV3 Large": "MobileNetV3Large_80_.h5",
 }
 
 selected_architecture_name = st.sidebar.selectbox("Choose the model architecture:", list(model_architectures.keys()))
@@ -70,7 +70,7 @@ if uploaded_file is not None:
 
 # Display options for sample images
 st.write("Or try with sample images:")
-sample_images_dir = "newdataset_(80%training)/newdataset_(80_training)/sample images"
+sample_images_dir = "sample images"
 
 # Check if the directory exists and get list of image paths
 if not os.path.isdir(sample_images_dir):
