@@ -37,36 +37,38 @@ else:
 
 # Upload Image Section
 st.header("📥 Upload an Image")
-uploaded_file = st.file_uploader("Choose an image of a sport (JPG, JPEG, or PNG)", type=["jpg", "jpeg", "png"])
+uploaded_file = st.file_uploader("Choose an image of a sport (JPG, JPEG, or PNG)", type=["jpg", "jpeg", "png"], key='file_uploader')
 
-# Processing Uploaded Image
+# Check for uploaded image and a button press
 if uploaded_file is not None:
-    try:
-        image = Image.open(uploaded_file).convert('RGB')
-        st.image(image, caption="Uploaded Image", use_column_width=True)
-        with st.spinner('🔄 Analyzing...'):
-            start_time = time.time()
-            # Call predict_label with the appropriate arguments
-            prediction, accuracy = predict_label(image, model, classes)
-            end_time = time.time()
-        processing_time = end_time - start_time
+    st.image(uploaded_file, caption="Uploaded Image", use_column_width=True)
+    if st.button('Confirm Upload', key='confirm_upload'):
+        try:
+            # Read image with PIL
+            image = Image.open(uploaded_file).convert('RGB')
 
-        # Display results
-        if accuracy:
-            st.markdown(
-                f"<h2 style='text-align: center; color: lightblue;'>Predicted Sport: {prediction}</h2>",
-                unsafe_allow_html=True)
-            st.markdown(
-                f"<h3 style='text-align: center; color: lightblue;'>Accuracy: {accuracy}</h3>",
-                unsafe_allow_html=True)
-        else:
-            st.markdown(f"<h2 style='text-align: center; color: lightblue;'>{prediction}</h2>",
+            with st.spinner('🔄 Analyzing...'):
+                start_time = time.time()
+                # Call predict_label with the appropriate arguments
+                prediction, accuracy = predict_label(image, model, classes)
+                end_time = time.time()
+
+            processing_time = end_time - start_time
+
+            # Display results
+            if accuracy:
+                st.markdown(f"<h2 style='text-align: center; color: lightblue;'>Predicted Sport: {prediction}</h2>",
+                            unsafe_allow_html=True)
+                st.markdown(f"<h3 style='text-align: center; color: lightblue;'>Accuracy: {accuracy}</h3>",
+                            unsafe_allow_html=True)
+            else:
+                st.markdown(f"<h2 style='text-align: center; color: lightblue;'>{prediction}</h2>",
+                            unsafe_allow_html=True)
+
+            st.markdown(f"<h4 style='text-align: center;'>Processing Time: {processing_time:.2f} seconds</h4>",
                         unsafe_allow_html=True)
-
-        st.markdown(f"<h4 style='text-align: center;'>Processing Time: {processing_time:.2f} seconds</h4>",
-                    unsafe_allow_html=True)
-    except Exception as e:
-        st.error(f"An error occurred: {e}")
+        except Exception as e:
+            st.error(f"An error occurred: {e}")
 
 # Display options for sample images
 st.write("Or try with sample images:")
@@ -81,9 +83,9 @@ else:
 
     # Display images with radio buttons for selection
     selected_image_index = st.radio("Select an image:", range(len(sample_images_paths)),
-                                    format_func=lambda x: sample_images[x])
+                                    format_func=lambda x: sample_images[x], key='sample_image_radio')
 
-    if st.button('Confirm Selection'):
+    if st.button('Confirm Sample Selection', key=f'confirm_sample_{selected_image_index}'):
         selected_sample_path = sample_images_paths[selected_image_index]
         try:
             # Open the image using PIL and convert it to 'RGB'
