@@ -3,7 +3,7 @@ import time
 from PIL import Image
 from tensorflow import keras
 import streamlit as st
-from utils import predict_label, classes  # Ensure that utils.py is properly defined with predict_label and classes.
+from utils import predict_label, classes 
 
 # Page configuration
 st.set_page_config(page_title="Sports Image Classifier", layout="centered", page_icon="🏀")
@@ -99,6 +99,7 @@ else:
                 prediction, accuracy = predict_label(sample_image, model, classes)
                 end_time = time.time()
             processing_time = end_time - start_time
+            
             # Display results
             if accuracy:
                 st.markdown(f"<h2 style='text-align: center; color: lightblue;'>Predicted Sport: {prediction}</h2>",
