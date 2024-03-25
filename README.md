@@ -7,7 +7,7 @@
 ## Streamlit App
 The live app can be viewed [here](https://sportsimageclassifier.streamlit.app/).
 ## Data
-The dataset is a collection of images representing **100 different types of Sports and activities**. The sports range from traditional sports like **"archery", "arm wrestling", "bowling", "football", "water polo", "weightlifting"** to non-traditional ones like **"wingsuit flying" and "nascar racing"**. Addtionally, I added on the new dataset with 10 sports are **"chess", "esport", "dancesport", "paintball", "parkour", "poker", "kayaking", "soccer", "scuba diving" and "sandboarding"**.The goal is the prediction the correct sport based on the image.
+The dataset is a collection of images representing **100 different types of Sports and activities**. The sports range from traditional sports like **"archery", "arm wrestling", "bowling", "football", "water polo", "weightlifting"** to non-traditional ones like **"wingsuit flying" and "nascar racing"**. Addtionally, I added on the new dataset with 10 sports are **"chess", "esport", "dancesport", "paintball", "parkour", "poker", "kayaking", "soccer", "scuba diving"** and **"sandboarding"**.The goal is the prediction the correct sport based on the image.
 - Each image is of size 224 x 224 pixels.
 
 
@@ -27,11 +27,11 @@ The original dataset can be downloaded from [here](https://www.kaggle.com/datase
 ### VGG19
 - The **VGG19** model was initialized with pre-trained ImageNet weights and all the layers were fine-tuned. Training the model with an **Adam optimizer with learning rate of 0.0005** for **10 epochs** yielded an **Accuracy of 74.57%, F1-Score of 0.74 and Training Time is 588.33s.**
 ### ResNet50
-- The **EfficientNetB0** model was initialized with pre-trained ImageNet weights and all the layers were fine-tuned. Training the model with an **Adam optimizer with learning rate of 0.0005** for **14 epochs** yielded an **Accuracy of 84.78%, F1-Score of 0.84 and Training Time is 840.83s.**
+- The **ResNet50** model was initialized with pre-trained ImageNet weights and all the layers were fine-tuned. Training the model with an **Adam optimizer with learning rate of 0.0005** for **14 epochs** yielded an **Accuracy of 84.78%, F1-Score of 0.84 and Training Time is 840.83s.**
 ### MobileNetV3 Large
-- The **EfficientNetB0** model was initialized with pre-trained ImageNet weights and all the layers were fine-tuned. Training the model with an **Adam optimizer with learning rate of 0.0005** for **10 epochs** yielded an **Accuracy of 89.60%, F1-Score of 0.89 and Training Time is 518.69s.**
+- The **MobileNetV3 Large** model was initialized with pre-trained ImageNet weights and all the layers were fine-tuned. Training the model with an **Adam optimizer with learning rate of 0.0005** for **10 epochs** yielded an **Accuracy of 89.60%, F1-Score of 0.89 and Training Time is 518.69s.**
 ### InceptionV3
-- The **EfficientNetB0** model was initialized with pre-trained ImageNet weights and all the layers were fine-tuned. Training the model with an **Adam optimizer with learning rate of 0.0005** for **34 epochs** yielded an **Accuracy of 82.08%, F1-Score of 0.82 and Training Time is 2166.94s.**
+- The **InceptionV3** model was initialized with pre-trained ImageNet weights and all the layers were fine-tuned. Training the model with an **Adam optimizer with learning rate of 0.0005** for **34 epochs** yielded an **Accuracy of 82.08%, F1-Score of 0.82 and Training Time is 2166.94s.**
 
 For all the models that were fine-tuned:
 
