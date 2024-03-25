@@ -7,11 +7,11 @@
 ## Streamlit App
 The live app can be viewed [here](https://sportsimageclassifier.streamlit.app/).
 ## Data
-The dataset is a collection of images representing **100 different types of Sports and activities**. The sports range from traditional sports like **"archery", "arm wrestling", "bowling", "football", "water polo", "weightlifting"** to non-traditional ones like **"wingsuit flying" and "nascar racing"**. Addtionally, I added on the new dataset with 10 sports are **"chess", "esport", "dancesport", "paintball", "parkour", "poker", "kayaking", "soccer", "scuba diving", "sandboarding"**.The goal is the predict the correct sport based on the image.
+The dataset is a collection of images representing **100 different types of Sports and activities**. The sports range from traditional sports like **"archery", "arm wrestling", "bowling", "football", "water polo", "weightlifting"** to non-traditional ones like **"wingsuit flying" and "nascar racing"**. Addtionally, I added on the new dataset with 10 sports are **"chess", "esport", "dancesport", "paintball", "parkour", "poker", "kayaking", "soccer", "scuba diving" and "sandboarding"**.The goal is the prediction the correct sport based on the image.
 - Each image is of size 224 x 224 pixels.
 
 
-- The images have been segregated into train, test and valid directories in 2 folder dataset is original dataset and new dataset.
+- The images have been segregated into train, test and valid directories in 2 folders are original dataset and new dataset.
 
 
 - There are 13492 train, 500 test, 500 validation images in original dataset.
