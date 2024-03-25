@@ -72,4 +72,5 @@ InceptionV3 (InceptionV3_80_.h5)
 EfficientNetB0 (EfficientNetB0_80_.h5)
 MobileNetV3 Large (MobileNetV3Large_80_.h5)
 `````
-## Author [@kudo](https://github.com/Kudokunnn/SportsImageClassifier)
+## Author 
+[@kudo](https://github.com/Kudokunnn/SportsImageClassifier)
